@@ -9,11 +9,11 @@ class App extends Component {
     super(props);
     this.state = {
       todos: [
-        {id: 0, text: "Make dinner tonight!", completed: false},
-        {id: 1, text: "Fold the laundry.", completed: false},
-        {id: 2, text: "Learn to make a React app!", completed: true}
+        {id: 0, title: "Make dinner tonight!", completed: false},
+        {id: 1, title: "Fold the laundry.", completed: false},
+        {id: 2, title: "Learn to make a React app!", completed: true}
       ],
-      nextId: 3
+      nextId: 21
     };
 
     this.addTodo = this.addTodo.bind(this);
@@ -21,9 +21,17 @@ class App extends Component {
     this.completeTodo = this.completeTodo.bind(this);
   }
 
+  componentDidMount() {
+    fetch('https://jsonplaceholder.typicode.com/users/1/todos')
+      .then(rsp => rsp.json())
+      .then(todos => {
+        // this.setState({ todos: todos })
+      })
+  }
+
   addTodo(todoText) {
     let todos = this.state.todos.slice();
-    todos.push({id: this.state.nextId, text: todoText, completed: false});
+    todos.push({id: this.state.nextId, title: todoText, completed: false});
     this.setState({
       todos: todos,
       nextId: ++this.state.nextId
@@ -47,6 +55,8 @@ class App extends Component {
   }
 
   render() {
+    const { todos } = this.state
+
     return (
       <div className="App">
         <div className="todo-wrapper">
@@ -54,7 +64,7 @@ class App extends Component {
           <TodoInput todoText="" addTodo={this.addTodo} />
           <ul>
             {
-              this.state.todos.map((todo) => {
+              todos && todos.map((todo) => {
                 return <TodoItem todo={todo} key={todo.id} id={todo.id} removeTodo={this.removeTodo} completeTodo={this.completeTodo}/>
               })
             }

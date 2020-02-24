@@ -16,7 +16,7 @@ export default class TodoItem extends React.Component {
     return (
       <div className="todoWrapper">
         <button className="removeTodo" onClick={(e)=> this.removeTodo(todo.id) }>remove</button>
-        <span className={todo.completed ? "todoText todoText--completed" : "todoText"}>{todo.text}</span>
+        <span className={todo.completed ? "todoText todoText--completed" : "todoText"}>{todo.title}</span>
         <input type="checkbox" checked={todo.completed} onChange={(e) => this.completeTodo(todo.id)}></input>
       </div>
     );
